@@ -1,0 +1,45 @@
+public class Maximum_Sum {
+	
+   public static int maxSumBST(Node root) {
+        
+        int max=0;
+        if(root==null) return max;
+        
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+        while(!q.isEmpty()){
+            Node temp = q.poll();
+            int sum=sum(temp);
+            if(max<sum) max=sum;
+            if(temp==root) max=0;
+            if(temp.left!=null){
+                q.offer(temp.left);
+            }
+            if(temp.right!=null){
+                q.offer(temp.right);
+            }
+        }
+        return max;
+    }
+    
+    public static int sum(Node root1){
+        int sum=0;
+        if(root1==null) return 0;
+        
+        Queue<Node> q = new LinkedList<>();
+        
+        q.offer(root1);
+        while(!q.isEmpty()){
+            Node temp = q.poll();
+            sum+=temp.data;
+            if(temp.left!=null){
+                q.offer(temp.left);
+            }
+            if(temp.right!=null){
+                q.offer(temp.right);
+            }
+        }
+       
+        return sum;
+    }
+}
