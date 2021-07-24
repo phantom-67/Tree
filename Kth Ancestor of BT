@@ -1,0 +1,84 @@
+// https://practice.geeksforgeeks.org/problems/kth-ancestor-in-a-tree/1#
+
+class Tree
+{
+    Map<Integer,Vector<Integer>> map = new HashMap<>();
+    public int kthAncestor(Node root, int k, int key)
+    {
+        try{
+            int level = 0;
+            Queue<Node> q = new LinkedList<>();
+            q.offer(root);
+            
+            while(!q.isEmpty()){
+                int size=q.size();
+                int i=0;
+                while(i<size){
+                    Node node = q.poll();
+                    Vector<Integer> temp = map.get(level);
+                    if(temp==null){
+                        temp = new Vector<>();
+                        temp.add(node.data);
+                    }else{
+                        temp.add(node.data);
+                    }
+                    
+                    map.put(level,temp);
+                    
+                    if(node.left!=null) q.offer(node.left);
+                    if(node.right!=null) q.offer(node.right);
+                    i++;
+                }
+                level++;
+            }
+            
+            level=0;
+            boolean check=false;
+            for(int data:map.keySet()){
+                for(int value:map.get(data)){
+                    if(value==key){
+                        level=data;
+                        check=true;
+                        break;
+                    }
+                }
+                if(check) break;
+            }
+            
+            level=level-k;
+            int res=0;
+            for(int value:map.get(level)){
+                res=value;
+                if(check(res,key,root)) break;
+            }
+            
+            return res;
+        }catch(Exception E){
+            return -1;
+        }
+    }
+    
+    public boolean check(int res, int key, Node root){
+        
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+        while(!q.isEmpty()){
+            Node temp = q.poll();
+            if(temp.data==res) {
+                if(find(temp,key)) return true;
+            }
+            if(temp.left!=null) q.offer(temp.left);
+            if(temp.right!=null) q.offer(temp.right);
+        }
+        return false;
+    }
+    
+    public boolean find(Node root, int key){
+        if(root==null) return false;
+        if(root.data==key) return true;
+        boolean r1=find(root.left, key);
+        if(r1) return true;
+        boolean r2 = find(root.right, key);
+        return r2;
+    }
+}
