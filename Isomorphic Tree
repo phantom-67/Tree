@@ -1,0 +1,43 @@
+// https://practice.geeksforgeeks.org/problems/check-if-tree-is-isomorphic/1
+
+class Solution  
+{ 
+    boolean isIsomorphic(Node root1, Node root2)  
+    { 
+         if(root1==null || root2==null) return false;
+         Queue<Node> queue1 = new LinkedList<>();
+         Queue<Node> queue2 = new LinkedList<>();
+         Set<Integer> set1 = new TreeSet<>();
+         Set<Integer> set2 = new TreeSet<>();
+         
+         try{
+             queue1.offer(root1);
+             queue2.offer(root2);
+             
+             while(!queue1.isEmpty()){
+                 int size=queue1.size();
+                 int i=0;
+                 while(i<size){
+                     Node temp1 = queue1.poll();
+                     Node temp2 = queue2.poll();
+                     set1.add(temp1.data);
+                     set2.add(temp2.data);
+                     
+                     if(temp1.left!=null) queue1.offer(temp1.left);
+                     if(temp1.right!=null) queue1.offer(temp1.right);
+                     if(temp2.left!=null) queue2.offer(temp2.left);
+                     if(temp2.right!=null) queue2.offer(temp2.right);
+                     i++;
+                 }
+                 if(!set1.containsAll(set2)) return false;
+                 set1.clear();
+                 set2.clear();
+             }
+         } catch(Exception e){
+             return false;
+         }
+         
+         return true;
+    }
+    
+}    
