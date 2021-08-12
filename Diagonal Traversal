@@ -105,6 +105,7 @@ class GfG {
 
 // } Driver Code Ends
 
+//Way 1 :- 
 class Tree
 {
      public ArrayList<Integer> diagonal(Node root)
@@ -137,3 +138,31 @@ class Tree
            return res;
       }
 }
+
+
+/* Way 2 :-
+
+class Tree
+{
+    public ArrayList<Integer> diagonal(Node root) {
+        
+        ArrayList<Integer> res = new ArrayList<>();
+        if(root==null) return res;
+        
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+        
+        while(!q.isEmpty()){
+            Node temp = q.poll();
+            
+            while(temp!=null){
+                res.add(temp.data);
+                if(temp.left!=null) q.offer(temp.left);
+                temp=temp.right;
+            }
+        }
+        return res;
+    }
+}
+
+*/
