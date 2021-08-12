@@ -1,0 +1,35 @@
+class Solution
+{
+    //Function to find the vertical order traversal of Binary Tree.
+    static ArrayList <Integer> verticalOrder(Node root)
+    {
+        ArrayList<Integer> res = new ArrayList<>();
+        if(root==null) return res;
+        
+        Map<Integer,Vector<Integer>> map = new TreeMap<>();
+        traversal(map,root,0);
+        
+        for(int data:map.keySet()){
+            for(int value:map.get(data)){
+                res.add(value);
+            }
+        }
+        return res;
+    }
+    
+    static void traversal(Map<Integer,Vector<Integer>> map, Node root, int hd) {
+        if(root==null) return;
+        
+        Vector<Integer> temp = map.get(hd);
+        if(temp==null){
+            temp = new Vector<>();
+            temp.add(root.data);
+        }
+        else{
+            temp.add(root.data);
+        }
+        map.put(hd,temp);
+        traversal(map,root.left,hd-1);
+        traversal(map,root.right,hd+1);
+    }
+}
