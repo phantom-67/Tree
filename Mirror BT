@@ -1,0 +1,12 @@
+public class Mirror_Tree {
+	
+	public static Node mirror(Node root) {
+		if(root==null) return null;
+		
+		Node newRoot = new Node(root.data);
+		newRoot.left = mirror(root.right);
+		newRoot.right = mirror(root.left);
+		
+		return newRoot;
+	}
+}
